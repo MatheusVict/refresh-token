@@ -8,6 +8,6 @@ export class TokenEntity {
   @Column({ length: 255 })
   hash: string;
 
-  @Column({ length: 100, name: 'email_user' })
-  emailUser: string;
+  @Column({ length: 100 })
+  emailuser: string;
 }

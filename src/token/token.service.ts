@@ -11,9 +11,19 @@ export class TokenService {
   ) {}
 
   async saveToken(hash: string, emailuser: string) {
-    await this.tokenRepository.insert({
-      hash,
-      emailUser: emailuser,
+    const obejctToken = await this.tokenRepository.findOne({
+      where: { emailuser },
     });
+
+    if (obejctToken) {
+      await this.tokenRepository.update(obejctToken.id, {
+        hash,
+      });
+    } else {
+      await this.tokenRepository.insert({
+        hash,
+        emailuser,
+      });
+    }
   }
 }
