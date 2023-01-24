@@ -9,4 +9,11 @@ export class TokenService {
     @InjectRepository(TokenEntity)
     private readonly tokenRepository: Repository<TokenEntity>,
   ) {}
+
+  async saveToken(hash: string, emailuser: string) {
+    await this.tokenRepository.insert({
+      hash,
+      emailUser: emailuser,
+    });
+  }
 }

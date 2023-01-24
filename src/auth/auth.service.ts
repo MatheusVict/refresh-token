@@ -3,19 +3,23 @@ import { UsersEntity } from 'src/app/users/users.entity';
 import { UsersService } from 'src/app/users/users.service';
 import { compareSync } from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { TokenService } from 'src/token/token.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly userService: UsersService,
     private readonly jwtService: JwtService,
+    private readonly tokenService: TokenService,
   ) {}
 
   async login(user: Partial<UsersEntity>) {
     const payload = { sub: user.id, email: user.email };
+    const token = this.jwtService.sign(payload);
+    await this.tokenService.saveToken(token, user.email);
 
     return {
-      token: this.jwtService.sign(payload),
+      token: token,
     };
   }
 
